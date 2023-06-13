@@ -104,3 +104,6 @@ class ClassName:
 GG = ClassName() # インスタンス化
 GG.method("gg")
 
+import  datetime
+
+
