@@ -1,3 +1,4 @@
+#git pull origin main
 #py -m venv venv
 #.\venv\Scripts\active
 # git add -A
