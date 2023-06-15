@@ -1,0 +1,155 @@
+user aaa
+pass aaa
+
+Djangoプロジェクトの作成と初期設定
+
+次のコマンドを実行する
+cd ..
+
+(今いるDjangoプロジェクトのフォルダから、一個前、リポジトリのフォルダの直下に移動したいという意味です)
+
+次の3コマンドを実行する
+mkdir django_ensyu1
+cd django_ensyu1
+django-admin startproject conf .
+
+
+conf/setttings.pyを開き
+
+LANGUAGE_CODE = 'ja'
+TIME_ZONE = 'Asia/Tokyo'
+
+TEMPLATESの部分を書き換える
+'DIRS':  [BASE_DIR / 'templates'],
+プロジェクトの直下(manage.pyと同じ階層)に「templates」フォルダを作成する
+
+
+Djangoに元からあるDjangoアプリケーションのモデルを、DBに反映する。コマンドを実行
+python manage.py migrate
+
+
+Django管理サイトを使うための管理者も作成しておくとスムーズです。コマンドを実行
+python manage.py createsuperuser
+
+次のコマンドを実行し、Djangoのウェルカムページ(ロケットの画面)が表示されればOKです。
+python manage.py runserver
+
+「Djangoアプリケーションの初期設定と、仮トップページの作成」
+
+次のコマンドで、Djangoアプリケーションを作成する
+python manage.py startapp blog
+
+
+conf/settings.pyを開き、INSTALLED_APPSに追加する
+'blog.apps.BlogConfig',
+
+
+conf/urls.pyを開き、include関数と、urlpatternsの中に追加する
+from django.contrib import admin
+from django.urls import path, include  # 追加
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('', include('blog.urls')),  # 追加
+]
+
+
+blog/urls.pyを作成し、中身を次のように書いておく
+
+from django.urls import path
+from . import views
+
+app_name = 'blog'
+
+urlpatterns = [
+    path('', views.Home.as_view(), name='home')
+]
+
+
+blog/views.pyを開き、TemplateViewを使ったシンプルなクラスビューを作成する
+from django.views import generic
+
+class Home(generic.TemplateView):
+    template_name = 'blog/home.html'
+
+
+templates/blog/home.htmlを作成する。<body>タグの中に、「トップページです」のようなわかりやすい内容を自由に書いてください。
+
+「モデルの作成と、Django管理サイトからの追加」
+
+次のモデルを、models.pyに定義する
+from django.db import models
+from django.utils import timezone
+
+
+class Category(models.Model):
+    name = models.CharField('カテゴリ名', max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+class Tag(models.Model):
+    name = models.CharField('タグ名', max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
+class Article(models.Model):
+    title = models.CharField('タイトル', max_length=255)
+    text = models.TextField('本文')
+    created_at = models.DateTimeField('作成日', default=timezone.now)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, verbose_name='カテゴリ')
+
+    # タグは複数紐づく。また、タグを設定しないことも可能にしている(blank=True, null=True)
+    tags = models.ManyToManyField(Tag, blank=True, null=True, verbose_name='タグ')
+
+    def __str__(self):
+        return self.title
+
+
+これらのモデルを、データベースに反映する
+python manage.py makemigrations
+python manage.py migrate
+
+
+admin.pyを書き換え、これらのモデルをDjango管理サイトで使えるようにする
+
+from django.contrib import admin
+from .models import Article, Category, Tag
+
+admin.site.register(Article)
+admin.site.register(Category)
+admin.site.register(Tag)
+
+
+
+runserverし、127.0.0.1:8000/admin/ のDjango管理サイトに行き、カテゴリ、タグ、記事のデータを何件か追加する。
+
+* 一覧ページの作成
+
+views.pyを開き、ListViewを継承した「ArticleListView」を作成する。
+(過去のプログラムを参考に書いてみてください。テンプレートファイル名は、blog/article_list.htmlとしてください。)
+
+
+urls.pyを開き、次のコードを追加する
+path('article/list/', views.ArticleListView.as_view(), name='article_list'),
+
+
+blog/article_list.htmlを作成し、記事のタイトルが表示されるように書いてください。
+{% for article in article_list %}と書くと、Articleのモデルインスタンスを1つずつ取り出すことができます
+
+
+127.0.0.1:8000/article/list/ にアクセスし、全ての記事のタイトルが表示されることを確認してください。
+
+ヒント: ListViewは次のように定義します。2つのクラス属性を上書きする必要があります
+class ArticleListView(generic.ListView):
+    model = モデル名
+    template_name = 'テンプレート名
+
+ListViewでは、モデル名小文字_list という名前で、モデルインスタンスの詰まったリストがテンプレートファイルへ渡されます。
+{% for 一時的な変数名 in モデル名小文字_list %}
+  <p>{{ 一時的な変数名.title }}</p>
+{% endfor %}
+ManytoManyの物は、小文字モデル名.all を使ってforで取り出す。

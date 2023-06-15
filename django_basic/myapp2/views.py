@@ -3,6 +3,11 @@ from django.urls import reverse_lazy
 from .models import StaffInformation, Department, Book, Staff
 from .forms import StaffInformationForm, DepartmentForm, BookForm, StaffForm
 
+class StaffDetailView(DetailView):
+    model = Staff
+    template_name='myapp2/staff_detail.html'
+
+
 class StaffInformationCreateView(CreateView):
     model = StaffInformation
     form_class = StaffInformationForm
