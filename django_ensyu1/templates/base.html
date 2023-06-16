@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+  {% load static %}
+  <html lang="ja">
+  <head>
+      <link rel="stylesheet" href="{% static 'css/style.css' %}">
+      <title>{% block title %}ブログ{% endblock %}</title>
+  </head>
+  <body>
+      <p><a href={% url 'blog:article_list' %}>記事一覧</a></p>
+      <div id="content">
+        {% block content %}{% endblock %}
+      </div>
+  </body>
+  </html>

@@ -1,7 +1,8 @@
 from django.views.generic import CreateView, DetailView, UpdateView, FormView
 from django.urls import reverse_lazy
 from .models import StaffInformation, Department, Book, Staff
-from .forms import StaffInformationForm, DepartmentForm, BookForm, StaffForm
+from .forms import StaffInformationForm, DepartmentForm, BookForm, StaffForm, StaffInformationUpdateForm
+
 
 class StaffDetailView(DetailView):
     model = Staff
@@ -33,4 +34,10 @@ class StaffCreateView(CreateView):
     model = Staff
     form_class = StaffForm
     template_name = 'myapp2/staff_create.html'
+    success_url = reverse_lazy('myapp:home')
+
+class StaffInformationUpdateView(UpdateView):
+    model = StaffInformation
+    form_class = StaffInformationUpdateForm
+    template_name = 'myapp2/staff_information_update.html'
     success_url = reverse_lazy('myapp:home')
