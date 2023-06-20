@@ -9,7 +9,11 @@ class TagCreateForm(forms.ModelForm):
         fields = ('name',)
 
 class ArticleCreateForm(forms.ModelForm):
+    class Meta:
+        model = Article
+        fields = ('title','text', 'category', 'tags')
 
+class ArticleUpdateForm(forms.ModelForm):
     class Meta:
         model = Article
         fields = ('title','text', 'category', 'tags')

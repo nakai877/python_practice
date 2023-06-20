@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from django.contrib.auth.decorators import login_required
 
-app_name = 'accounts'
+app_name = 'contacts'
 
 urlpatterns = [
     path('accounts_create/', views.AccountCreateView.as_view(), name='create'),

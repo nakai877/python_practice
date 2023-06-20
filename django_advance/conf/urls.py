@@ -6,6 +6,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('crud/', include('crud.urls')),
+    path('search/', include('search.urls')),
+    path('aggregate/', include('aggregate.urls')),
     path('admin/', admin.site.urls),
 ]
 

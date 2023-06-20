@@ -31,14 +31,19 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'accounts.apps.AccountsConfig',
+    'crud.apps.CrudConfig',
+    'search.apps.SearchConfig',
+    'aggregate.apps.AggregateConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts.apps.AccountsConfig',
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -124,9 +129,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # アプリケーション名.モデル名
-AUTH_USER_MODEL = 'accounts.CustomUser'
+AUTH_USER_MODEL = 'contacts.CustomUser'
 
-LOGIN_URL = 'accounts:login'
+LOGIN_URL = 'contacts:login'
 
 # ログイン後の、リダイレクトページ
-LOGIN_REDIRECT_URL = 'accounts:home'
+LOGIN_REDIRECT_URL = 'contacts:home'

@@ -1,0 +1,1 @@
+[企業]{{form.corporate_name.value}}からお問い合わせです。

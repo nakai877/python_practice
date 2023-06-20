@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <p><a href="{% url 'blog:article_create' %}">記事作成</a></p>
     {% for article in article_list %}
-    <p><a href= "{% url 'blog:article_detail' article.pk %}"> {{ article.title }}</a></p>
+    <p><a href= "{% url 'blog:article_detail' article.pk %}"> {{ article.title }}</a>
+    <a href="{% url 'blog:article_update' article.pk %}">更新</a>
+    <a href="{% url 'blog:article_delete' article.pk %}">削除</a>
+    </p>
     {% endfor %}
 {% endblock %}
