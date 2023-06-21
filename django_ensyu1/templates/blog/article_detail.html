@@ -6,4 +6,14 @@
     <p>作成日:　{{ article.created_at | date:'Y/m/d H.i.s'}}</p>
     <p>カテゴリ：　{{ article.category.name }}</p>
     <p>タグ　{% for tag in article.tags.all %} {{ tag.name }} {% endfor %}</p>
+
+
+    {% for comment in article.comment_set.all %}
+        <hr>
+        <div>
+             <p>{{ comment.name }}{{ comment.text | linebreaks }}</p>
+        </div>
+    {% endfor %}
+    <hr>
+    <a href="{% url 'blog:comment_create' article.id %}">コメント作成ページへ</a>
 {% endblock %}

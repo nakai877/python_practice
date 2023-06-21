@@ -2,6 +2,10 @@
 
 {% block content %}
     <p><a href="{% url 'blog:article_create' %}">記事作成</a></p>
+    <form action="" method="GET">
+        {{ form.as_div }}
+        <button type="submit">検索</button>
+    </form>
     {% for article in article_list %}
     <p><a href= "{% url 'blog:article_detail' article.pk %}"> {{ article.title }}</a>
     <a href="{% url 'blog:article_update' article.pk %}">更新</a>

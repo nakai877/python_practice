@@ -1,7 +1,7 @@
-#git pull origin main
-#py -m venv venv
-#.\venv\Scripts\active
-# git add -A
+#git pull origin main　プル
+#py -m venv venv　venv作成
+#.\venv\Scripts\active　仮想環境
+# git add -A　
 # git commit -m "6/9"
 # git push origin main
 
